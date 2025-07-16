@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lucky Draw App</title>
+    <!-- Include LottieFiles web player library -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font as per instructions */
+            background: linear-gradient(135deg, #000000 0%, #F0B419 100%); /* Black to IQOO Yellow gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Use min-height for full viewport height */
+            margin: 0;
+            flex-direction: column;
+            color: #fff; /* Default text color for the body */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            position: relative; /* Needed for absolute positioning of the logo */
+        }
+
+        /* Main Container Styles */
+        .container {
+            background: rgba(0, 0, 0, 0.6); /* Black with transparency */
+            padding: 40px 30px;
+            border-radius: 20px; /* More rounded corners */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            text-align: center;
+            max-width: 600px; /* Increased max-width for better layout */
+            width: 90%; /* Responsive width */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+            box-sizing: border-box; /* Include padding in width */
+            position: relative; /* Ensure it doesn't interfere with body's absolute positioning */
+        }
+
+        /* Title Styles */
+        h1 {
+            color: #F0B419; /* IQOO Yellow for main title */
+            font-size: 3.5em; /* Larger font size */
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(240, 180, 25, 0.5); /* IQOO Yellow text shadow */
+        }
+
+        /* Logo Container for positioning */
+        .logo-container {
+            position: absolute;
+            top: 20px; /* Distance from top */
+            right: 20px; /* Distance from right */
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        /* Logo Styles */
+        .logo {
+            max-width: 120px; /* Adjust logo size as needed */
+            height: auto;
+            display: block; /* Ensure it takes its own line */
+        }
+
+        h2.subtitle {
+            color: #FFFFFF; /* White for subtitle */
+            font-size: 1.2em;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        /* Prize Indicator (Coin) */
+        .prize-indicator {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(180deg, #F0B419 0%, #000000 100%); /* IQOO Yellow to Black gradient */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #FFFFFF; /* White color for number on coin */
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.5);
+            border: 2px solid #F0B419; /* IQOO Yellow border */
+        }
+
+        /* Gold Prize Label */
+        .gold-prize-label {
+            background-color: #000000; /* Black background for label */
+            color: #F0B419; /* IQOO Yellow text */
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-bottom: 25px; /* Adjusted margin after removing number display */
+            display: inline-block; /* To allow padding/margin */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Winner Display */
+        .winner-display {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #000000; /* Black background */
+            border: 2px solid #F0B419; /* IQOO Yellow border */
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+        .winner-display h2 {
+            color: #F0B419; /* IQOO Yellow color for "The Winner Is..." */
+            margin: 0;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        .winner-name {
+            font-size: 3em; /* Larger font for winner name */
+            font-weight: bold;
+            color: #F0B419; /* IQOO Yellow color for winner name */
+            text-shadow: 0 0 8px rgba(240, 180, 25, 0.7);
+        }
+
+        /* File Upload Form */
+        .file-upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .file-input {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #F0B419; /* IQOO Yellow border for input */
+            border-radius: 8px;
+            background-color: rgba(0, 0, 0, 0.8); /* Black with transparency for input */
+            color: #fff;
+            width: calc(100% - 24px); /* Adjust width for padding/border */
+            max-width: 300px;
+            box-sizing: border-box;
+        }
+        .file-input::file-selector-button {
+            background-color: #F0B419; /* IQOO Yellow button for file selector */
+            color: #000000; /* Black text */
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .file-input::file-selector-button:hover {
+            background-color: #000000; /* Black on hover */
+            color: #F0B419; /* IQOO Yellow text on hover */
+        }
+
+        /* Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+            margin-top: 40px;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px; /* Rounded buttons */
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .btn-confirm {
+            background: linear-gradient(180deg, #F0B419 0%, #000000 100%); /* IQOO Yellow to Black gradient */
+            color: #FFFFFF; /* White text */
+        }
+        .btn-redraw { /* New class for redraw button */
+            background-color: #E6E6E6; /* Gray background */
+            color: #000000; /* Black text */
+            border: 1px solid #F0B419; /* IQOO Yellow border */
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .flash-messages li {
+            background-color: rgba(240, 180, 25, 0.2); /* IQOO Yellow with transparency */
+            border: 1px solid #F0B419;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: #fff; /* White text for messages */
+            font-weight: bold;
+        }
+
+        /* Lucky Spin Overlay (for Lottie animation) */
+        .lucky-spin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            display: none; /* Hidden by default */
+        }
+
+        /* Lottie player styling */
+        lottie-player {
+            width: 300px; /* Adjust size as needed */
+            height: 300px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .logo-container {
+                top: 10px;
+                right: 10px;
+            }
+            .logo {
+                max-width: 100px; /* Smaller logo on smaller screens */
+            }
+            .winner-name {
+                font-size: 2.2em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            lottie-player {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .logo-container {
+                top: 5px;
+                right: 5px;
+            }
+            .logo {
+                max-width: 80px; /* Even smaller logo on very small screens */
+            }
+            h2.subtitle {
+                font-size: 1em;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            lottie-player {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images (5).png') }}" alt="IQOO Logo" class="logo" onerror="this.onerror=null;this.src='https://placehold.co/120x40/000000/F0B419?text=Logo';">
+    </div>
+
+    <div class="container">
+        <h1>LUCKY DRAW</h1>
+        <h2 class="subtitle">AMAZING INC.</h2>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if winner %}
+            <div class="prize-indicator">1</div>
+            <div class="gold-prize-label">GOLD PRIZE</div>
+            
+            <div class="winner-display">
+                <h2>The Winner Is...</h2>
+                <div class="winner-name">{{ winner }}</div>
+            </div>
+
+            <div class="action-buttons">
+                <button type="button" class="btn btn-confirm">CONFIRM</button>
+                <!-- Form for RE-DRAW button, now with onclick to show spinner -->
+                <form action="{{ url_for('redraw') }}" method="post" style="display:inline;" onsubmit="showSpinner(event, this)">
+                    <button type="submit" class="btn btn-redraw">RE-DRAW</button>
+                </form>
+            </div>
+        {% else %}
+            <p style="color: #FFFFFF; margin-bottom: 30px;">Upload an Excel file (.xlsx or .xls) with your entries in the first column to select a random winner.</p>
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="file-upload-form" onsubmit="showSpinner(event, this)">
+                <input type="file" name="file" class="file-input" required>
+                <button type="submit" class="btn btn-confirm">Run Lucky Draw</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <!-- Lucky Spin Overlay -->
+    <div id="luckySpinOverlay" class="lucky-spin-overlay">
+        <!-- Lottie player for the animation -->
+        <lottie-player id="lottieSpinner" src="{{ url_for('static', filename='Dice_roll_iQOO.json') }}" background="transparent" speed="1" style="width: 300px; height: 300px;" loop></lottie-player>
+    </div>
+
+    <script>
+        function showSpinner(event, form) {
+            event.preventDefault(); // Prevent the default form submission immediately
+
+            document.getElementById('luckySpinOverlay').style.display = 'flex';
+            const lottieSpinner = document.getElementById('lottieSpinner');
+            // Play the Lottie animation
+            lottieSpinner.play();
+
+            // Submit the form and hide the spinner after 20 seconds
+            setTimeout(() => {
+                lottieSpinner.stop(); // Stop the animation
+                document.getElementById('luckySpinOverlay').style.display = 'none';
+                form.submit(); // Programmatically submit the form
+            }, 8000); // 20 seconds
+        }
+    </script>
+</body>
+</html>
