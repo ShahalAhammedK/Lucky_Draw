@@ -2,20 +2,17 @@ import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import random
 import os
-import json # Import json for saving/loading entries
+import json
 from datetime import timedelta
 
 # Create the Flask application instance
 app = Flask(__name__)
-# IMPORTANT: In a production environment, ensure this secret key is loaded from an environment variable
-# and is a strong, randomly generated value. Do NOT hardcode sensitive keys in production.
-app.secret_key = os.environ.get('SECRET_KEY', 'supersecretkey_default_for_dev')  
-
+app.secret_key = os.environ.get('SECRET_KEY', 'supersecretkey') # Use environment variable for secret key
 # Configure session to be permanent and set a lifetime (optional, but good for persistence)
 app.config['SESSION_PERMANENT'] = True
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) # Set a longer lifetime for testing
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Recommended for security and compatibility
-app.config['SESSION_COOKIE_SECURE'] = True # Use True in production with HTTPS. Render uses HTTPS by default.
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_SECURE'] = os.environ.get('FLASK_ENV') == 'production' # Use True in production with HTTPS
 
 # Define the folder to store uploaded files and persistent entries
 UPLOAD_FOLDER = 'uploads'
@@ -73,9 +70,6 @@ def upload_file():
             session.modified = True # Mark session as modified to ensure it's saved
 
             # Also save entries to a JSON file for persistence across server restarts
-            # Note: Files saved to the 'uploads' folder on Render's free tier are ephemeral
-            # and will be lost if the server restarts or deploys. For persistent storage,
-            # you would need a database or cloud storage solution.
             with open(ENTRIES_FILE, 'w') as f:
                 json.dump(entries, f)
             
@@ -124,6 +118,7 @@ def redraw():
     
     return render_template('index.html', winner=winner)
 
-# The following __main__ block is removed for Render deployment
-# if __name__ == '__main__':
-#     app.run(debug=True)
+# This block is for local development only. Railway will use Gunicorn.
+if __name__ == '__main__':
+    app.run(debug=True)
+
