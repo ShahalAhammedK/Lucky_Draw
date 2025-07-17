@@ -121,4 +121,3 @@ def redraw():
 # This block is for local development only. Railway will use Gunicorn.
 if __name__ == '__main__':
     app.run(debug=True)
-
