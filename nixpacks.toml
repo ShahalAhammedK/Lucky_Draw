@@ -1,2 +1,4 @@
 [phases.setup]
 nixPkgs = ["python310"] # Specify Python 3.10
+# Explicitly set the Python version for Nixpacks to use
+environmentVariables = { NIXPACKS_PYTHON_VERSION = "3.10" }
