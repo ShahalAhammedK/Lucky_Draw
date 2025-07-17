@@ -45,19 +45,31 @@
             text-shadow: 0 0 10px rgba(240, 180, 25, 0.5); /* IQOO Yellow text shadow */
         }
 
-        /* Logo Container for positioning */
+        /* Logo Container for positioning and styling */
         .logo-container {
             position: absolute;
             top: 20px; /* Distance from top */
             right: 20px; /* Distance from right */
             z-index: 10; /* Ensure it's above other content */
+            
+            /* Styles for the logo's background frame */
+            background-color: #000000; /* Black background for the logo frame */
+            padding: 10px 20px; /* Padding around the logo image */
+            border-radius: 8px; /* Rounded corners for the frame */
+            box-shadow: 0 4px 15px rgba(240, 180, 25, 0.3); /* IQOO Yellow shadow */
+            border: 1px solid #F0B419; /* IQOO Yellow border */
+            display: flex; /* Use flex to center the image if needed */
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Logo Styles */
+        /* Logo Styles (for the image itself) */
         .logo {
             max-width: 120px; /* Adjust logo size as needed */
             height: auto;
             display: block; /* Ensure it takes its own line */
+            /* Removed previous background, padding, border-radius, box-shadow directly on image */
+            /* The container now provides the visual frame */
         }
 
         h2.subtitle {
@@ -229,6 +241,7 @@
             .logo-container {
                 top: 10px;
                 right: 10px;
+                padding: 8px 15px; /* Adjust padding for smaller screens */
             }
             .logo {
                 max-width: 100px; /* Smaller logo on smaller screens */
@@ -256,6 +269,7 @@
             .logo-container {
                 top: 5px;
                 right: 5px;
+                padding: 6px 12px; /* Adjust padding for very small screens */
             }
             .logo {
                 max-width: 80px; /* Even smaller logo on very small screens */
@@ -303,7 +317,7 @@
             </div>
 
             <div class="action-buttons">
-                <button type="button" class="btn btn-confirm">CONFIRM</button>
+                <button type="button" class="btn btn-confirm" onclick="window.location.href = '{{ url_for('index') }}';">CONFIRM</button>
                 <!-- Form for RE-DRAW button, now with onclick to show spinner -->
                 <form action="{{ url_for('redraw') }}" method="post" style="display:inline;" onsubmit="showSpinner(event, this)">
                     <button type="submit" class="btn btn-redraw">RE-DRAW</button>
