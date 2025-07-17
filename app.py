@@ -13,7 +13,7 @@ app.secret_key = 'supersecretkey'  # Set a secret key for flashing messages
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) # Set a longer lifetime for testing
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Recommended for security and compatibility
-app.config['SESSION_COOKIE_SECURE'] = False # Use True in production with HTTPS
+app.config['SESSION_COOKIE_SECURE'] = False # Use True in production with HTTPS. Render uses HTTPS by default.
 
 # Define the folder to store uploaded files and persistent entries
 UPLOAD_FOLDER = 'uploads'
