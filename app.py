@@ -7,13 +7,15 @@ from datetime import timedelta
 
 # Create the Flask application instance
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Set a secret key for flashing messages
+# IMPORTANT: In a production environment, ensure this secret key is loaded from an environment variable
+# and is a strong, randomly generated value. Do NOT hardcode sensitive keys in production.
+app.secret_key = os.environ.get('SECRET_KEY', 'supersecretkey_default_for_dev')  
 
 # Configure session to be permanent and set a lifetime (optional, but good for persistence)
 app.config['SESSION_PERMANENT'] = True
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7) # Set a longer lifetime for testing
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Recommended for security and compatibility
-app.config['SESSION_COOKIE_SECURE'] = False # Use True in production with HTTPS. Render uses HTTPS by default.
+app.config['SESSION_COOKIE_SECURE'] = True # Use True in production with HTTPS. Render uses HTTPS by default.
 
 # Define the folder to store uploaded files and persistent entries
 UPLOAD_FOLDER = 'uploads'
@@ -71,6 +73,9 @@ def upload_file():
             session.modified = True # Mark session as modified to ensure it's saved
 
             # Also save entries to a JSON file for persistence across server restarts
+            # Note: Files saved to the 'uploads' folder on Render's free tier are ephemeral
+            # and will be lost if the server restarts or deploys. For persistent storage,
+            # you would need a database or cloud storage solution.
             with open(ENTRIES_FILE, 'w') as f:
                 json.dump(entries, f)
             
@@ -119,6 +124,6 @@ def redraw():
     
     return render_template('index.html', winner=winner)
 
-if __name__ == '__main__':
-    # Run the app in debug mode
-    app.run(debug=True)
+# The following __main__ block is removed for Render deployment
+# if __name__ == '__main__':
+#     app.run(debug=True)
