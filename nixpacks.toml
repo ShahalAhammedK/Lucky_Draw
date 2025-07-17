@@ -1,7 +1,0 @@
-[phases.setup]
-nixPkgs = ["python310"] # Specify Python 3.10
-# Explicitly set the Python version for Nixpacks to use
-environmentVariables = { NIXPACKS_PYTHON_VERSION = "3.10" }
-
-[start]
-cmd = "gunicorn main:app --workers 4 --bind 0.0.0.0:$PORT" # Explicitly define the start command for main.py
